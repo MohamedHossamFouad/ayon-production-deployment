@@ -121,9 +121,9 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "db:/var/lib/postgresql/data"
     environment:
-      - "POSTGRES_USER=ayon"
-      - "POSTGRES_PASSWORD=ayon"
-      - "POSTGRES_DB=ayon"
+      - "POSTGRES_USER=####"
+      - "POSTGRES_PASSWORD=####"
+      - "POSTGRES_DB=####"
       - TZ=Africa/Cairo
 
   redis:
@@ -225,14 +225,14 @@ Mount shared project storage:
 ```bash
 sudo mkdir -p /mnt/share
 sudo mount -t cifs //192.168.1.247/Projects /mnt/share \
-  -o username=zou,password=6615220,domain=MONKEYS,rw,vers=3.0,sec=ntlmssp
+  -o username=####,password=####,domain=####,rw,vers=3.0,sec=ntlmssp
 ```
 
 Permanent mount `/etc/fstab`:
 
 ```
 # NAS Storage for AYON
-//192.168.1.247/Projects  /mnt/share  cifs  username=zou,password=6615220,domain=MONKEYS,vers=3.0,sec=ntlmssp,rw  0  0
+//192.168.1.247/Projects  /mnt/share  cifs  username=####,password=####,domain=####,vers=3.0,sec=ntlmssp,rw  0  0
 ```
 
 ---
@@ -256,7 +256,7 @@ docker save -o ayon_all_images.tar \
 
 ## Backup storage
 ```
-/home/it1/ayon-docker/storage/
+/home/ayon-docker/storage/
 ```
 
 ---
