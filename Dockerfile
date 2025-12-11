@@ -19,8 +19,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
-RUN \
-  wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz \
+RUN wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz \
   && tar -xzf ffmpeg-${FFMPEG_VERSION}.tar.gz \
   && rm ffmpeg-${FFMPEG_VERSION}.tar.gz \
   && mv ffmpeg-${FFMPEG_VERSION} ffmpeg
@@ -43,38 +42,29 @@ RUN ./configure \
     cd / && \
     rm -rf /tmp/ffmpeg
 
-#
 # Build frontend
-#
-
 FROM node:22 AS build-frontend
 
 WORKDIR /frontend
 
-COPY \
-  ./frontend/index.html \
-  ./frontend/tsconfig.node.json \
-  ./frontend/tsconfig.json \
-  ./frontend/vite.config.ts \
-  .
+COPY ./frontend/index.html \
+     ./frontend/tsconfig.node.json \
+     ./frontend/tsconfig.json \
+     ./frontend/vite.config.ts \
+     .
 COPY ./frontend/package.json ./frontend/yarn.lock .
 
 RUN yarn install
 
 COPY ./frontend/public /frontend/public
-COPY ./frontend/share[d] /frontend/shared
+COPY ./frontend/shared /frontend/shared
 COPY ./frontend/src /frontend/src
 
 RUN yarn build
 
-#
 # Main container
-#
-
 FROM python:3.11-slim
 ENV PYTHONBUFFERED=1
-
-# Debian packages
 
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
@@ -97,7 +87,7 @@ RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
 COPY ./backend/static /backend/static
 COPY ./backend/start.sh /backend/start.sh
 COPY ./backend/reload.sh /backend/reload.sh
-COPY ./backend/nxtool[s] /backend/nxtools
+COPY ./backend/nxtools /backend/nxtools
 COPY ./backend/demogen /backend/demogen
 COPY ./backend/linker /backend/linker
 COPY ./backend/setup /backend/setup
@@ -107,11 +97,10 @@ COPY ./backend/maintenance /backend/maintenance
 COPY ./backend/schemas /backend/schemas
 COPY ./backend/ayon_server /backend/ayon_server
 COPY ./backend/api /backend/api
-COPY ./RELEAS[E] /backend/RELEASE
+COPY ./RELEASE /backend/RELEASE
 
 COPY --from=build-frontend /frontend/dist/ /frontend
 
 RUN sh -c 'date +%y%m%d%H%M > /backend/BUILD_DATE'
 
 CMD ["/bin/bash", "/backend/start.sh"]
-
