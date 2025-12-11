@@ -16,7 +16,7 @@ services:
 
     environment:
       - "POSTGRES_USER=ayon"
-      - "POSTGRES_PASSWORD=ayon"
+      - "POSTGRES_PASSWORD=########"
       - "POSTGRES_DB=ayon"
       - TZ=Africa/Cairo
 
@@ -54,12 +54,7 @@ services:
     volumes:
       - "./addons:/addons"
       - "./storage:/storage"
-
-      # comment out the following line on Windows
       - "/etc/localtime:/etc/localtime:ro"
-
-      # uncomment the following line if you need to work on the backend code
-      # - "./backend:/backend"
 
 
   worker:
@@ -67,13 +62,16 @@ services:
     hostname: worker
     restart: unless-stopped
     network_mode: host
+
     depends_on:
       - server
+
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+
     environment:
-      - "AYON_API_KEY=e90cbeeb435349ac8aa3ca775ecebfc6"
-      - "AYON_SERVER_URL=http://192.168.1.216:5000"
+      - "AYON_API_KEY=########"
+      - "AYON_SERVER_URL=http://localhost:5000"
 
 volumes:
   db: {}
