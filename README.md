@@ -28,11 +28,14 @@ This repository delivers a **clean, stable, production deployment** including:
 - Full Docker stack
 - Auto-start on reboot
 
+  
+![AYON ](images/AYONlogo.jpg)
+
 ---
 
 # 🏗 2. Architecture Diagram
 
-![AYON Architecture](architecture.png)
+![AYON Architecture](images/architecture.png)
 
 ---
 
